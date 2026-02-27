@@ -14,6 +14,6 @@
 
 1. Склонируйте репозиторий:
    ```bash
-   git clone <ссылка_на_ваш_репозиторий>
+   git clone https://github.com/MotyaMen120/tpsh-project.git
+   cd tpsh-project
 
-   cd <имя_папки>
