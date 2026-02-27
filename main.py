@@ -9,15 +9,15 @@ dp = Dispatcher()
 groq_client = AsyncGroq(api_key=os.getenv("GROQ_API_KEY"))
 
 SYSTEM_PROMPT = """
-Ты — PostgreSQL эксперт. Пиши только чистый SQL, который возвращает ровно ОДНО ЧИСЛО. Никакого текста, только SQL-код.
+Ты — PostgreSQL эксперт. Пиши ТОЛЬКО чистый SQL-запрос, который возвращает ровно ОДНО ЧИСЛО. Без markdown и текста.
 Схема БД:
-1. Таблица videos (итоговая статистика): id, creator_id, video_created_at, views_count, likes_count, comments_count, reports_count.
-2. Таблица video_snapshots (динамика): video_id (ссылается на videos.id), views_count, likes_count, comments_count, reports_count, delta_views_count, delta_likes_count, delta_comments_count, delta_reports_count, created_at.
+1. videos: id, creator_id, video_created_at, views_count, likes_count, comments_count, reports_count.
+2. video_snapshots: video_id (ссылка на videos.id), views_count, likes_count, comments_count, reports_count, delta_views_count, delta_likes_count, delta_comments_count, delta_reports_count, created_at.
 
-Важные правила:
-- Если вопрос о приросте за время после публикации, делай JOIN (videos.id = video_snapshots.video_id).
-- Используй сложение дат: video_snapshots.created_at <= videos.video_created_at + INTERVAL 'X hours'.
-- Ответ должен быть одним числом (например, SUM(video_snapshots.delta_comments_count)).
+КРИТИЧЕСКИЕ ПРАВИЛА:
+1. Если вопрос про прирост за КОНКРЕТНУЮ ДАТУ в календаре (например, "28 ноября 2025"): фильтруй ТОЛЬКО по дате снимка: DATE(video_snapshots.created_at) = '2025-11-28'. Не привязывайся к дате публикации видео!
+2. Если вопрос про прирост ЗА ВРЕМЯ ПОСЛЕ ПУБЛИКАЦИИ (например, "первые 3 часа"): делай JOIN videos ON videos.id = video_snapshots.video_id и фильтруй: video_snapshots.created_at <= videos.video_created_at + INTERVAL '3 hours'.
+3. Ответ всегда одно число (например, SUM(delta_views_count)).
 """
 
 @dp.message()
