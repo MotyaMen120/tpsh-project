@@ -14,6 +14,16 @@
 
 1. Склонируйте репозиторий:
    ```bash
-   git clone https://github.com/MotyaMen120/tpsh-project.git
-   cd tpsh-project
+   git clone <ссылка_на_ваш_репозиторий>
+   cd <имя_папки>
 
+2.Создайте файл .env в корневой папке на основе файла .env_example и укажите свои ключи:
+BOT_TOKEN=ваш_токен_telegram_бота
+GROQ_API_KEY=ваш_ключ_groq
+DB_URL=postgresql://postgres:secretpassword@db:5432/tpsh_db
+
+3.Убедитесь, что файл с данными videos.json находится в корне проекта.
+
+4.Запустите проект одной командой:
+docker-compose up --build
+При запуске автоматически создадутся таблицы, данные из JSON загрузятся в БД, после чего запустится сам бот.
