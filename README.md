@@ -14,7 +14,7 @@
 
 1. Склонируйте репозиторий:
    ```bash
-   git clone <ссылка_на_ваш_репозиторий>
+   git clone https://github.com/MotyaMen120/tpsh-project.git
    cd tpsh-project
 
 2.Создайте файл .env в корневой папке на основе файла .env_example и укажите свои ключи:
@@ -28,3 +28,4 @@ DB_URL=postgresql://postgres:secretpassword@db:5432/tpsh_db
 docker-compose up --build
 
 При запуске автоматически создадутся таблицы, данные из JSON загрузятся в БД, после чего запустится сам бот.
+
